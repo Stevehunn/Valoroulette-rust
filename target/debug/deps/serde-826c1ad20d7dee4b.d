@@ -1,0 +1,14 @@
+C:\Users\steve\Documents\GitHub\Valoroulette-rust\target\debug\deps\serde-826c1ad20d7dee4b.d: C:\Users\steve\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\lib.rs C:\Users\steve\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\integer128.rs C:\Users\steve\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\mod.rs C:\Users\steve\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\de.rs C:\Users\steve\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\ser.rs C:\Users\steve\Documents\GitHub\Valoroulette-rust\target\debug\build\serde-caf956b834941ad6\out/private.rs
+
+C:\Users\steve\Documents\GitHub\Valoroulette-rust\target\debug\deps\libserde-826c1ad20d7dee4b.rlib: C:\Users\steve\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\lib.rs C:\Users\steve\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\integer128.rs C:\Users\steve\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\mod.rs C:\Users\steve\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\de.rs C:\Users\steve\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\ser.rs C:\Users\steve\Documents\GitHub\Valoroulette-rust\target\debug\build\serde-caf956b834941ad6\out/private.rs
+
+C:\Users\steve\Documents\GitHub\Valoroulette-rust\target\debug\deps\libserde-826c1ad20d7dee4b.rmeta: C:\Users\steve\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\lib.rs C:\Users\steve\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\integer128.rs C:\Users\steve\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\mod.rs C:\Users\steve\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\de.rs C:\Users\steve\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\ser.rs C:\Users\steve\Documents\GitHub\Valoroulette-rust\target\debug\build\serde-caf956b834941ad6\out/private.rs
+
+C:\Users\steve\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\lib.rs:
+C:\Users\steve\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\integer128.rs:
+C:\Users\steve\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\mod.rs:
+C:\Users\steve\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\de.rs:
+C:\Users\steve\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\ser.rs:
+C:\Users\steve\Documents\GitHub\Valoroulette-rust\target\debug\build\serde-caf956b834941ad6\out/private.rs:
+
+# env-dep:OUT_DIR=C:\\Users\\steve\\Documents\\GitHub\\Valoroulette-rust\\target\\debug\\build\\serde-caf956b834941ad6\\out
