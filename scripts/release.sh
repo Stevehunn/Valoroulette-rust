@@ -24,6 +24,16 @@ if [[ -z "$VERSION" ]]; then
 fi
 TAG="v$VERSION"
 
+# --- VÉRIFICATION SI LE TAG EXISTE DÉJÀ ---
+if git rev-parse "$TAG" >/dev/null 2>&1; then
+    echo "⚠️  Le tag $TAG existe déjà localement."
+    read -p "Continuer quand même (la release sera mise à jour) ? [y/N] " CONFIRM
+    if [[ ! "$CONFIRM" =~ ^[yY]$ ]]; then
+        echo "❌ Abandon."
+        exit 1
+    fi
+fi
+
 # --- MISE À JOUR DE CARGO.TOML ---
 echo "📝 Mise à jour de Cargo.toml vers $VERSION..."
 sed -i "s/^version = \".*\"/version = \"$VERSION\"/" "$CARGO_FILE"
@@ -34,19 +44,34 @@ cargo check
 
 # --- GIT COMMIT & TAG ---
 echo "📦 Commit et tag Git..."
-git add "$CARGO_FILE" CHANGELOG.md
-git commit -m "chore(release): v$VERSION"
-git tag -a "$TAG" -m "Release $TAG"
+git add "$CARGO_FILE" CHANGELOG.md 2>/dev/null || true
+
+# Commit seulement s'il y a des changements
+if ! git diff --cached --quiet; then
+    git commit -m "chore(release): v$VERSION"
+else
+    echo "ℹ️  Aucun changement à commiter (version déjà à jour)."
+fi
+
+# Créer le tag s'il n'existe pas déjà
+if ! git rev-parse "$TAG" >/dev/null 2>&1; then
+    git tag -a "$TAG" -m "Release $TAG"
+fi
+
 git push origin main
 git push origin "$TAG"
 
 # --- CRÉATION DE LA RELEASE GITHUB ---
 echo "🚀 Création de la release GitHub..."
-gh release create "$TAG" \
-    --repo "$REPO" \
-    --title "Valoroulette $TAG" \
-    --notes-from-tag \
-    --generate-notes
+if gh release view "$TAG" --repo "$REPO" &> /dev/null; then
+    echo "ℹ️  Release existante, mise à jour du titre..."
+    gh release edit "$TAG" --repo "$REPO" --title "Valoroulette $TAG"
+else
+    gh release create "$TAG" \
+        --repo "$REPO" \
+        --title "Valoroulette $TAG" \
+        --generate-notes
+fi
 
 echo "✅ Release $TAG publiée avec succès !"
 echo "🔗 https://github.com/$REPO/releases/tag/$TAG"

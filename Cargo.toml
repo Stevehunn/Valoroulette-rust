@@ -2,6 +2,7 @@
 name = "valoroulette"
 version = "0.2.0"
 edition = "2021"
+build = "build.rs"
 
 [dependencies]
 eframe = { version = "0.33", features = ["persistence"] }
@@ -13,3 +14,6 @@ rfd = "0.15"
 dirs = "6"
 reqwest = { version = "0.12", features = ["blocking", "json"] }
 webbrowser = "1.0"
+
+[build-dependencies]
+winres = "0.1"

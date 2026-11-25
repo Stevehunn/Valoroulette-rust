@@ -1,5 +1,9 @@
+// Hide the console window on Windows in release builds
+#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+
 mod agent;
 mod app;
+mod embedded_assets;
 mod i18n;
 mod persistence;
 mod style;
@@ -10,9 +14,9 @@ use app::ValorouletteApp;
 use eframe::egui;
 
 fn load_icon() -> egui::IconData {
-    let icon_bytes = include_bytes!("../assets/icon.png");
+    let icon_bytes = embedded_assets::get_icon_bytes();
     let image = image::load_from_memory(icon_bytes)
-        .expect("Icon not found in assets/icon.png")
+        .expect("Icon not found in embedded assets")
         .to_rgba8();
     let (width, height) = image.dimensions();
     egui::IconData {

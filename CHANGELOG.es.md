@@ -7,6 +7,17 @@ Todos los cambios notables de este proyecto se documentarán en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es/1.1.0/),
 y este proyecto se adhiere al [Versionado Semántico](https://semver.org/lang/es/).
 
+## [0.2.1] - 2024-05-25
+
+### Corregido
+- Ocultada la ventana de la consola al iniciar el ejecutable en modo release en Windows.
+- Imágenes de los agentes incrustadas directamente en el binario para que se muestren correctamente independientemente de la ubicación del ejecutable.
+- Añadido un icono `.ico` real de Windows para el archivo `.exe` en el explorador.
+- Eliminado el banner superior con el logotipo para una interfaz más limpia.
+
+### Añadido
+- Scripts de release (`release.sh` y `release.ps1`) para automatizar la publicación en GitHub.
+
 ## [0.1.0] - 2024-05-24
 
 ### Añadido

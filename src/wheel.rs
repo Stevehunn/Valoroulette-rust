@@ -27,6 +27,7 @@ pub fn draw(
     let radius = diameter * 0.42;
     let portrait_radius = radius * 0.82;
 
+    // Drop shadow under the wheel
     painter.circle_filled(
         center + Vec2::new(0.0, 10.0),
         radius + 22.0,
@@ -38,6 +39,7 @@ pub fn draw(
         Color32::from_rgba_unmultiplied(0, 0, 0, 60),
     );
 
+    // Wheel background and outer rings
     painter.circle_filled(center, radius + 18.0, WHEEL_BG);
     painter.circle_stroke(center, radius + 18.0, Stroke::new(1.0_f32, WHEEL_RING));
     painter.circle_stroke(center, radius + 14.0, Stroke::new(3.0_f32, style::ACCENT_RED));
@@ -59,6 +61,7 @@ pub fn draw(
     let hover_pos = response.hover_pos();
     let click_pos = response.interact_pointer_pos();
 
+    // Find the single closest hovered agent (avoids double highlighting)
     let mut hovered_index: Option<usize> = None;
     let mut best_dist = f32::MAX;
     if let Some(hover) = hover_pos {
@@ -73,6 +76,7 @@ pub fn draw(
         }
     }
 
+    // Draw agent portraits
     for (i, agent) in agents.iter().enumerate() {
         let angle = rotation + i as f32 * angle_step;
         let pos = center + Vec2::angled(angle) * portrait_radius;
@@ -108,6 +112,7 @@ pub fn draw(
         painter.circle_stroke(pos, portrait_circle_radius, Stroke::new(ring_width, ring_color));
     }
 
+    // Winner preview in the center
     if let Some(name) = winner_name {
         let center_radius = radius * 0.38;
         painter.circle_filled(
@@ -142,6 +147,7 @@ pub fn draw(
         );
     }
 
+    // Pointer (triangle at the top)
     let tip = Pos2::new(center.x, center.y - radius - 18.0);
     let pointer = vec![
         tip,
@@ -154,6 +160,7 @@ pub fn draw(
         Stroke::new(1.0_f32, Color32::WHITE),
     ));
 
+    // Click handling: find the closest agent under the cursor
     if response.clicked() {
         if let Some(click) = click_pos {
             let mut best: Option<(usize, f32)> = None;
@@ -176,6 +183,7 @@ pub fn draw(
     None
 }
 
+/// Draw a texture cropped into a circle using a triangle fan mesh.
 fn draw_circular_image(
     painter: &egui::Painter,
     texture: &egui::TextureHandle,
@@ -213,13 +221,39 @@ fn draw_circular_image(
     painter.add(Shape::mesh(mesh));
 }
 
+/// Load a portrait from embedded assets or from disk as fallback.
+/// Used for both default and custom agents.
 pub fn load_portrait(ctx: &egui::Context, path: &str) -> Option<egui::TextureHandle> {
-    if !Path::new(path).exists() {
-        return None;
-    }
-    let image = image::open(path).ok()?.to_rgba8();
+    // Try to find the image in embedded assets first
+    let bytes = if let Some(name) = extract_agent_name(path) {
+        crate::embedded_assets::get_agent_image_bytes(name).map(|b| b.to_vec())
+    } else {
+        None
+    };
+
+    // Fall back to disk if not found in embedded assets (custom agents)
+    let img_result = if let Some(data) = bytes {
+        image::load_from_memory(&data).ok()
+    } else {
+        if !Path::new(path).exists() {
+            return None;
+        }
+        image::open(path).ok()
+    };
+
+    let image = img_result?.to_rgba8();
     let size = [image.width() as usize, image.height() as usize];
     let pixels = image.into_raw();
     let color_image = egui::ColorImage::from_rgba_unmultiplied(size, &pixels);
     Some(ctx.load_texture(path, color_image, egui::TextureOptions::LINEAR))
+}
+
+fn extract_agent_name(path: &str) -> Option<&str> {
+    let file = Path::new(path).file_stem()?.to_str()?;
+    // Special case: Kayo.png -> "KAY/O"
+    if file == "Kayo" {
+        Some("KAY/O")
+    } else {
+        Some(file)
+    }
 }

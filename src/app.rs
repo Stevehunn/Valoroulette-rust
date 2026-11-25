@@ -26,7 +26,6 @@ pub struct ValorouletteApp {
     custom_role_selection: Role,
     custom_role_text: String,
     custom_image_path: Option<String>,
-    logo: Option<egui::TextureHandle>,
     preview_texture: Option<egui::TextureHandle>,
     updater: UpdateChecker,
 }
@@ -43,7 +42,6 @@ impl ValorouletteApp {
                 }
             }
         }
-        let logo = wheel::load_portrait(&cc.egui_ctx, "assets/logo.png");
         style::apply_theme(&cc.egui_ctx);
 
         let mut updater = UpdateChecker::new();
@@ -64,7 +62,6 @@ impl ValorouletteApp {
             custom_role_selection: Role::Unknown,
             custom_role_text: String::new(),
             custom_image_path: None,
-            logo,
             preview_texture: None,
             updater,
         }
@@ -239,7 +236,7 @@ impl ValorouletteApp {
 
 impl eframe::App for ValorouletteApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        self.updater.poll(); // Poll the update checker thread
+        self.updater.poll();
         self.update_animation(ctx);
 
         egui::SidePanel::left("controls")
@@ -247,18 +244,8 @@ impl eframe::App for ValorouletteApp {
             .default_width(360.0)
             .width_range(300.0..=500.0)
             .show(ctx, |ui| {
-                // Top Logo & Language Selector
-                if let Some(logo) = &self.logo {
-                    ui.add_space(12.0);
-                    ui.vertical_centered(|ui| {
-                        let w = ui.available_width() * 0.55;
-                        ui.image((logo.id(), egui::vec2(w, w)));
-                    });
-                    ui.add_space(10.0);
-                    ui.separator();
-                    ui.add_space(6.0);
-                }
-
+                // Language Selector at the top
+                ui.add_space(12.0);
                 ui.horizontal(|ui| {
                     ui.label(self.t().language);
                     egui::ComboBox::from_id_salt("lang_pick")
