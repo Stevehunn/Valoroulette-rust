@@ -323,3 +323,40 @@ pub fn excluded_card(
 
     response
 }
+
+/// Clean white button for the update banner (stands out on colored backgrounds).
+pub fn banner_download_button(ui: &mut egui::Ui, label: &str, enabled: bool) -> bool {
+    let width = ui.available_width();
+    let height = 32.0;
+    let (rect, response) = ui.allocate_exact_size(egui::vec2(width, height), egui::Sense::click());
+
+    let text_color = if enabled { Color32::BLACK } else { Color32::GRAY };
+    let bg_color = if !enabled {
+        Color32::from_rgb(200, 200, 200)
+    } else if response.hovered() {
+        Color32::WHITE
+    } else {
+        Color32::from_rgb(240, 240, 240)
+    };
+
+    ui.painter().rect_filled(rect, egui::CornerRadius::same(6), bg_color);
+    
+    if enabled && response.hovered() {
+        ui.painter().rect_stroke(
+            rect,
+            egui::CornerRadius::same(6),
+            Stroke::new(1.0_f32, Color32::BLACK),
+            egui::StrokeKind::Inside,
+        );
+    }
+
+    ui.painter().text(
+        rect.center(),
+        egui::Align2::CENTER_CENTER,
+        label,
+        egui::FontId::proportional(14.0),
+        text_color,
+    );
+
+    enabled && response.clicked()
+}

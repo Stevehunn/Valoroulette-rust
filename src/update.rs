@@ -6,39 +6,53 @@ const REPO: &str = "Stevehunn/Valoroulette-rust";
 pub const CURRENT_VERSION: &str = env!("CARGO_PKG_VERSION");
 
 #[derive(Deserialize)]
+struct Asset {
+    name: String,
+    browser_download_url: String,
+}
+
+#[derive(Deserialize)]
 struct ReleaseInfo {
     tag_name: String,
     html_url: String,
+    assets: Vec<Asset>,
 }
 
 #[derive(Debug, Clone)]
 pub struct UpdateInfo {
     pub latest_version: String,
     pub release_url: String,
+    pub download_url: Option<String>,
 }
 
 pub struct UpdateChecker {
-    receiver: Option<Receiver<Option<UpdateInfo>>>,
+    check_receiver: Option<Receiver<Option<UpdateInfo>>>,
+    download_receiver: Option<Receiver<Result<String, String>>>,
     pub result: Option<UpdateInfo>,
     pub checked: bool,
+    pub is_downloading: bool,
+    pub download_status: Option<String>,
 }
 
 impl UpdateChecker {
     pub fn new() -> Self {
         Self {
-            receiver: None,
+            check_receiver: None,
+            download_receiver: None,
             result: None,
             checked: false,
+            is_downloading: false,
+            download_status: None,
         }
     }
 
-    /// Lance la vérification en arrière-plan (non bloquant pour l'UI).
+    /// Start checking for updates in the background.
     pub fn check_async(&mut self) {
-        if self.receiver.is_some() {
-            return; // Déjà en cours
+        if self.check_receiver.is_some() {
+            return;
         }
         let (tx, rx) = mpsc::channel();
-        self.receiver = Some(rx);
+        self.check_receiver = Some(rx);
         self.checked = false;
 
         thread::spawn(move || {
@@ -47,20 +61,59 @@ impl UpdateChecker {
         });
     }
 
-    /// À appeler à chaque frame pour récupérer le résultat quand il est prêt.
+    /// Start downloading the executable in the background.
+    pub fn start_download(&mut self, url: String) {
+        if self.download_receiver.is_some() {
+            return;
+        }
+        let (tx, rx) = mpsc::channel();
+        self.download_receiver = Some(rx);
+        self.is_downloading = true;
+        self.download_status = None;
+
+        thread::spawn(move || {
+            let result = download_file(&url);
+            let _ = tx.send(result);
+        });
+    }
+
+    /// Poll both the check and download channels.
     pub fn poll(&mut self) {
-        let Some(rx) = &self.receiver else { return };
-        match rx.try_recv() {
-            Ok(info) => {
-                self.result = info;
-                self.checked = true;
-                self.receiver = None;
+        // Poll check
+        if let Some(rx) = &self.check_receiver {
+            match rx.try_recv() {
+                Ok(info) => {
+                    self.result = info;
+                    self.checked = true;
+                    self.check_receiver = None;
+                }
+                Err(TryRecvError::Disconnected) => {
+                    self.checked = true;
+                    self.check_receiver = None;
+                }
+                Err(TryRecvError::Empty) => {}
             }
-            Err(TryRecvError::Disconnected) => {
-                self.checked = true;
-                self.receiver = None;
+        }
+
+        // Poll download
+        if let Some(rx) = &self.download_receiver {
+            match rx.try_recv() {
+                Ok(Ok(path)) => {
+                    self.is_downloading = false;
+                    self.download_status = Some(format!("OK:{}", path));
+                    self.download_receiver = None;
+                }
+                Ok(Err(e)) => {
+                    self.is_downloading = false;
+                    self.download_status = Some(format!("ERR:{}", e));
+                    self.download_receiver = None;
+                }
+                Err(TryRecvError::Disconnected) => {
+                    self.is_downloading = false;
+                    self.download_receiver = None;
+                }
+                Err(TryRecvError::Empty) => {}
             }
-            Err(TryRecvError::Empty) => {}
         }
     }
 
@@ -87,16 +140,46 @@ fn fetch_latest_release() -> Option<UpdateInfo> {
     let local_version = CURRENT_VERSION.to_string();
 
     if is_newer(&remote_version, &local_version) {
+        // Find the .exe asset
+        let download_url = release
+            .assets
+            .iter()
+            .find(|a| a.name.ends_with(".exe"))
+            .map(|a| a.browser_download_url.clone());
+
         Some(UpdateInfo {
             latest_version: remote_version,
             release_url: release.html_url,
+            download_url,
         })
     } else {
         None
     }
 }
 
-/// Comparaison sémantique simple (x.y.z).
+fn download_file(url: &str) -> Result<String, String> {
+    let client = reqwest::blocking::Client::builder()
+        .user_agent("Valoroulette-Rust-Updater")
+        .build()
+        .map_err(|e| e.to_string())?;
+
+    let mut resp = client.get(url).send().map_err(|e| e.to_string())?;
+    if !resp.status().is_success() {
+        return Err(format!("HTTP {}", resp.status()));
+    }
+
+    // Save to Downloads folder
+    let download_dir = dirs::download_dir()
+        .unwrap_or_else(|| std::env::current_dir().unwrap_or_default());
+    let file_path = download_dir.join("valoroulette_update.exe");
+
+    let mut file = std::fs::File::create(&file_path).map_err(|e| e.to_string())?;
+    std::io::copy(&mut resp, &mut file).map_err(|e| e.to_string())?;
+
+    Ok(file_path.to_string_lossy().to_string())
+}
+
+/// Simple semantic version comparison (x.y.z).
 fn is_newer(remote: &str, local: &str) -> bool {
     let parse = |v: &str| -> Vec<u32> {
         v.split('.')

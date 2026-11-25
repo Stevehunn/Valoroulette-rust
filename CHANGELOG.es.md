@@ -7,6 +7,21 @@ Todos los cambios notables de este proyecto se documentarán en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es/1.1.0/),
 y este proyecto se adhiere al [Versionado Semántico](https://semver.org/lang/es/).
 
+## [0.2.2] - 2024-05-26
+
+### Añadido
+- Descarga directa del archivo `.exe` desde el banner de actualización, guardándose en la carpeta de Descargas del usuario.
+- Comentarios visuales en el banner de actualización (estado de descarga, mensajes de éxito y error).
+
+### Modificado
+- Eliminado el banner superior con el logotipo para una interfaz más limpia y moderna.
+- Rediseñado el botón del banner de actualización a un estilo blanco limpio para una mejor visibilidad.
+
+### Corregido
+- Ocultada la ventana de la consola al iniciar el ejecutable en modo release en Windows.
+- Imágenes de los agentes incrustadas directamente en el binario para que se muestren correctamente independientemente de la ubicación.
+- Añadido un icono `.ico` real de Windows para el archivo `.exe` en el explorador de archivos.s
+
 ## [0.2.1] - 2024-05-25
 
 ### Corregido

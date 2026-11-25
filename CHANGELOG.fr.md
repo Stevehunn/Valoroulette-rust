@@ -7,6 +7,21 @@ Toutes les modifications notables de ce projet seront documentées dans ce fichi
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
+## [0.2.2] - 2024-05-26
+
+### Ajouté
+- Téléchargement direct du fichier `.exe` depuis la bannière de mise à jour, sauvegardé dans le dossier Téléchargements de l'utilisateur.
+- Retour visuel dans la bannière de mise à jour (statut de téléchargement, messages de succès et d'erreur).
+
+### Modifié
+- Suppression du bandeau supérieur avec le logo pour une interface plus épurée et moderne.
+- Refonte du bouton de la bannière de mise à jour vers un style blanc épuré pour une meilleure visibilité.
+
+### Corrigé
+- Masquage de la fenêtre de console lors du lancement de l'exécutable en mode release sous Windows.
+- Intégration des images des agents directement dans le binaire pour qu'elles s'affichent correctement peu importe l'emplacement.
+- Ajout d'une véritable icône `.ico` Windows pour le fichier `.exe` dans l'explorateur.
+
 ## [0.2.1] - 2024-05-25
 
 ### Corrigé

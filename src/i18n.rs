@@ -54,8 +54,13 @@ pub struct Translations {
     pub spin_secret_btn: &'static str,
     pub no_agent_available: &'static str,
     pub language: &'static str,
+    
+    // Update banner strings
     pub update_available: &'static str,
     pub download: &'static str,
+    pub downloading: &'static str,
+    pub download_success: &'static str,
+    pub download_error: &'static str,
 
     // Roles
     pub role_duelist: &'static str,
@@ -86,8 +91,13 @@ static FR: Translations = Translations {
     spin_secret_btn: "LANCER (mode secret)",
     no_agent_available: "Aucun agent disponible",
     language: "Langue",
+    
     update_available: "Mise à jour disponible",
     download: "Télécharger",
+    downloading: "Téléchargement en cours...",
+    download_success: "Téléchargé dans le dossier Téléchargements !",
+    download_error: "Échec du téléchargement",
+    
     role_duelist: "Duelliste",
     role_initiator: "Initiateur",
     role_controller: "Contrôleur",
@@ -116,8 +126,13 @@ static EN: Translations = Translations {
     spin_secret_btn: "SPIN (secret mode)",
     no_agent_available: "No agent available",
     language: "Language",
+    
     update_available: "Update available",
     download: "Download",
+    downloading: "Downloading...",
+    download_success: "Downloaded to your Downloads folder!",
+    download_error: "Download failed",
+    
     role_duelist: "Duelist",
     role_initiator: "Initiator",
     role_controller: "Controller",
@@ -146,8 +161,13 @@ static ES: Translations = Translations {
     spin_secret_btn: "GIRAR (modo secreto)",
     no_agent_available: "Ningún agente disponible",
     language: "Idioma",
+    
     update_available: "Actualización disponible",
     download: "Descargar",
+    downloading: "Descargando...",
+    download_success: "¡Descargado en tu carpeta de Descargas!",
+    download_error: "Error en la descarga",
+    
     role_duelist: "Duelista",
     role_initiator: "Iniciador",
     role_controller: "Controlador",

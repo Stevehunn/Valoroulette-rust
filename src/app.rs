@@ -266,28 +266,55 @@ impl eframe::App for ValorouletteApp {
                     ui.add_space(8.0);
 
                     // Update Notification Banner
-                    if self.updater.update_available() {
-                        if let Some(info) = &self.updater.result {
-                            let frame = egui::Frame::default()
-                                .fill(style::ACCENT_CYAN)
-                                .inner_margin(8.0)
-                                .corner_radius(egui::CornerRadius::same(8));
-                            
-                            frame.show(ui, |ui| {
-                                ui.set_width(ui.available_width());
-                                ui.vertical_centered(|ui| {
-                                    ui.label(
-                                        RichText::new(format!("{} v{}", self.t().update_available, info.latest_version))
-                                            .strong()
-                                            .color(Color32::BLACK),
-                                    );
-                                    if ui.button(RichText::new(self.t().download).color(Color32::BLACK)).clicked() {
+                    if let Some(info) = self.updater.result.clone() {
+                        let frame = egui::Frame::default()
+                            .fill(style::ACCENT_CYAN)
+                            .inner_margin(12.0)
+                            .corner_radius(egui::CornerRadius::same(8));
+                        
+                        frame.show(ui, |ui| {
+                            ui.set_width(ui.available_width());
+                            ui.vertical_centered(|ui| {
+                                // Title
+                                ui.label(
+                                    RichText::new(format!("{} v{}", self.t().update_available, info.latest_version))
+                                        .strong()
+                                        .size(15.0)
+                                        .color(Color32::BLACK),
+                                );
+                                ui.add_space(4.0);
+
+                                // Status message
+                                if let Some(status) = &self.updater.download_status {
+                                    let (msg, color) = if status.starts_with("OK:") {
+                                        (self.t().download_success, Color32::from_rgb(0, 100, 0))
+                                    } else {
+                                        (self.t().download_error, Color32::from_rgb(150, 0, 0))
+                                    };
+                                    ui.label(RichText::new(msg).color(color).strong());
+                                    ui.add_space(4.0);
+                                }
+
+                                // Download button
+                                let btn_label = if self.updater.is_downloading {
+                                    self.t().downloading
+                                } else {
+                                    self.t().download
+                                };
+
+                                let btn_enabled = !self.updater.is_downloading;
+
+                                if style::banner_download_button(ui, btn_label, btn_enabled) {
+                                    if let Some(dl_url) = &info.download_url {
+                                        self.updater.start_download(dl_url.clone());
+                                    } else {
+                                        // Fallback: open the release page if no .exe asset is found
                                         let _ = webbrowser::open(&info.release_url);
                                     }
-                                });
+                                }
                             });
-                            ui.add_space(8.0);
-                        }
+                        });
+                        ui.add_space(8.0);
                     }
 
                     if style::restore_all_button(ui, self.t().restore_all) {
