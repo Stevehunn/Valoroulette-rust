@@ -3,6 +3,7 @@ use crate::{
     i18n::Language,
     persistence::{self, Settings},
     style,
+    update::UpdateChecker,
     wheel,
 };
 use eframe::egui::{self, Color32, RichText, TextEdit};
@@ -27,6 +28,7 @@ pub struct ValorouletteApp {
     custom_image_path: Option<String>,
     logo: Option<egui::TextureHandle>,
     preview_texture: Option<egui::TextureHandle>,
+    updater: UpdateChecker,
 }
 
 impl ValorouletteApp {
@@ -43,6 +45,9 @@ impl ValorouletteApp {
         }
         let logo = wheel::load_portrait(&cc.egui_ctx, "assets/logo.png");
         style::apply_theme(&cc.egui_ctx);
+
+        let mut updater = UpdateChecker::new();
+        updater.check_async(); // Start update check in the background
 
         Self {
             agents,
@@ -61,6 +66,7 @@ impl ValorouletteApp {
             custom_image_path: None,
             logo,
             preview_texture: None,
+            updater,
         }
     }
 
@@ -233,6 +239,7 @@ impl ValorouletteApp {
 
 impl eframe::App for ValorouletteApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+        self.updater.poll(); // Poll the update checker thread
         self.update_animation(ctx);
 
         egui::SidePanel::left("controls")
@@ -269,8 +276,32 @@ impl eframe::App for ValorouletteApp {
                 // Bottom Action Buttons (Anchored)
                 egui::TopBottomPanel::bottom("side_buttons").show_inside(ui, |ui| {
                     ui.add_space(6.0);
-                    // Removed explicit ui.separator() here to avoid double line
                     ui.add_space(8.0);
+
+                    // Update Notification Banner
+                    if self.updater.update_available() {
+                        if let Some(info) = &self.updater.result {
+                            let frame = egui::Frame::default()
+                                .fill(style::ACCENT_CYAN)
+                                .inner_margin(8.0)
+                                .corner_radius(egui::CornerRadius::same(8));
+                            
+                            frame.show(ui, |ui| {
+                                ui.set_width(ui.available_width());
+                                ui.vertical_centered(|ui| {
+                                    ui.label(
+                                        RichText::new(format!("{} v{}", self.t().update_available, info.latest_version))
+                                            .strong()
+                                            .color(Color32::BLACK),
+                                    );
+                                    if ui.button(RichText::new(self.t().download).color(Color32::BLACK)).clicked() {
+                                        let _ = webbrowser::open(&info.release_url);
+                                    }
+                                });
+                            });
+                            ui.add_space(8.0);
+                        }
+                    }
 
                     if style::restore_all_button(ui, self.t().restore_all) {
                         self.settings.excluded_agents.clear();

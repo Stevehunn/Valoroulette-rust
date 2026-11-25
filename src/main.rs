@@ -3,6 +3,7 @@ mod app;
 mod i18n;
 mod persistence;
 mod style;
+mod update;
 mod wheel;
 
 use app::ValorouletteApp;

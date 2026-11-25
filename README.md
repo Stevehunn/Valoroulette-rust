@@ -1,45 +1,56 @@
-# Valoroulette Rust
+# 🎡 Valoroulette Rust
 
-Réécriture native de Valoroulette avec Rust + `egui/eframe`.
+[English](README.md) | [Français](README.fr.md) | [Español](README.es.md)
 
-## Prérequis
+A Rust rewrite of [Valoroulette-standalone](https://github.com/Stevehunn/Valoroulette-standalone.git), originally developed in Electron/JavaScript.
 
-- Rust stable et Cargo : https://www.rust-lang.org/tools/install
-- Sous Windows : Visual Studio Build Tools avec le composant **Desktop development with C++** (toolchain MSVC).
+Valoroulette is an interactive roulette to randomly select a Valorant agent, with exclusion management, secret mode, and customization.
 
-## Lancer en développement
+## ✨ Features
+
+- **Interactive roulette** with agent portraits and smooth animation.
+- **Custom agent addition** (name, role, image).
+- **Quick exclusion**: click on an agent in the wheel to exclude them.
+- **Role filters**: temporarily hide agent categories.
+- **Secret mode**: force the result towards a target agent via `Ctrl+click` or `Alt+click` on the SPIN button.
+- **Internationalization**: English, French, Spanish.
+- **Persistence** of settings and custom agents.
+- **Update notifications** directly in the application.
+
+## 🚀 Installation
+
+Download the latest version from the [Releases](https://github.com/Stevehunn/Valoroulette-rust/releases/) page.
+Extract the archive and run `valoroulette.exe`.
+
+## 📦 Build from source
+
+### Prerequisites
+
+- [Rust](https://www.rust-lang.org/tools/install) (edition 2021 or higher).
+
+### Steps
 
 ```bash
-cargo run
-```
-
-## Compiler
-
-```bash
+git clone https://github.com/Stevehunn/Valoroulette-rust.git
+cd Valoroulette-rust
 cargo build --release
 ```
 
-L'exécutable est généré dans `target/release/valoroulette.exe` sous Windows.
+The executable will be located in `target/release/valoroulette.exe`.
 
-## État du portage
+## 🔄 Updates
 
-Cette première base contient :
-- fenêtre native `eframe`;
-- roue dessinée directement avec le painter egui;
-- animation de rotation;
-- catalogue des 30 entrées du fichier `agents.json` du projet d'origine;
-- filtres par rôle et exclusions individuelles;
-- ajout d'un agent personnalisé (nom uniquement à ce stade);
-- sauvegarde locale des exclusions et paramètres.
+The application automatically checks for new versions on startup via the GitHub Releases API.
+If an update is available, a notification appears in the interface with a download button.
 
-À compléter dans les prochaines étapes :
-- intégrer les portraits PNG et le logo d'origine;
-- aligner exactement le comportement du Secret Mode sur l'application Electron;
-- persister les agents personnalisés et leurs portraits;
-- importer les 10 traductions existantes;
-- mettre en place la vérification et l'installation des mises à jour GitHub Releases;
-- tests fonctionnels et packaging Windows.
+## 🧑‍💻 Development
 
-## Notes de migration
+See the [COMMANDS.md](COMMANDS.md) file for the list of useful commands.
 
-Le rôle de `Veto` n'était pas défini dans la table des rôles du renderer JavaScript d'origine. Il est donc classé `Unknown` ici, plutôt que de lui attribuer arbitrairement un rôle.
+## 📝 Changelog
+
+All notable changes are documented in the [CHANGELOG.md](CHANGELOG.md) file.
+
+## 📄 License
+
+This project is distributed under the MIT License. See the `LICENSE` file for more details.
