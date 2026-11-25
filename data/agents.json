@@ -1,122 +1,32 @@
 [
-  {
-    "nom": "Jett",
-    "image": "assets/agents/Jett.png"
-  },
-  {
-    "nom": "Phoenix",
-    "image": "assets/agents/Phoenix.png"
-  },
-  {
-    "nom": "Sova",
-    "image": "assets/agents/Sova.png"
-  },
-  {
-    "nom": "Sage",
-    "image": "assets/agents/Sage.png"
-  },
-  {
-    "nom": "Cypher",
-    "image": "assets/agents/Cypher.png"
-  },
-  {
-    "nom": "Omen",
-    "image": "assets/agents/Omen.png"
-  },
-  {
-    "nom": "Brimstone",
-    "image": "assets/agents/Brimstone.png"
-  },
-  {
-    "nom": "Viper",
-    "image": "assets/agents/Viper.png"
-  },
-  {
-    "nom": "Killjoy",
-    "image": "assets/agents/Killjoy.png"
-  },
-  {
-    "nom": "Raze",
-    "image": "assets/agents/Raze.png"
-  },
-  {
-    "nom": "Breach",
-    "image": "assets/agents/Breach.png"
-  },
-  {
-    "nom": "Skye",
-    "image": "assets/agents/Skye.png"
-  },
-  {
-    "nom": "Yoru",
-    "image": "assets/agents/Yoru.png"
-  },
-  {
-    "nom": "KAY/O",
-    "image": "assets/agents/Kayo.png"
-  },
-  {
-    "nom": "Astra",
-    "image": "assets/agents/Astra.png"
-  },
-  {
-    "nom": "Neon",
-    "image": "assets/agents/Neon.png"
-  },
-  {
-    "nom": "Harbor",
-    "image": "assets/agents/Harbor.png"
-  },
-  {
-    "nom": "Chamber",
-    "image": "assets/agents/Chamber.png"
-  },
-  {
-    "nom": "Fade",
-    "image": "assets/agents/Fade.png"
-  },
-  {
-    "nom": "Gekko",
-    "image": "assets/agents/Gekko.png"
-  },
-  {
-    "nom": "Deadlock",
-    "image": "assets/agents/Deadlock.png"
-  },
-  {
-    "nom": "Clove",
-    "image": "assets/agents/Clove.png"
-  },
-  {
-    "nom": "Vyse",
-    "image": "assets/agents/Vyse.png"
-  },
-  {
-    "nom": "Tejo",
-    "image": "assets/agents/Tejo.png"
-  },
-  {
-    "nom": "Reyna",
-    "image": "assets/agents/Reyna.png"
-  },
-  {
-    "nom": "Iso",
-    "image": "assets/agents/Iso.png"
-  },
-  {
-    "nom": "Waylay",
-    "image": "assets/agents/Waylay.png"
-  },
-  {
-    "nom": "Veto",
-    "image": "assets/agents/Veto.png"
-  },
-  {
-    "nom": "Miks",
-    "image": "assets/agents/Miks.png"
-  },
-  {
-    "nom": "Hush",
-    "image": "assets/agents/Hush.png"
-  }
+  { "name": "Jett", "image_path": "assets/agents/Jett.png" },
+  { "name": "Phoenix", "image_path": "assets/agents/Phoenix.png" },
+  { "name": "Sova", "image_path": "assets/agents/Sova.png" },
+  { "name": "Sage", "image_path": "assets/agents/Sage.png" },
+  { "name": "Cypher", "image_path": "assets/agents/Cypher.png" },
+  { "name": "Omen", "image_path": "assets/agents/Omen.png" },
+  { "name": "Brimstone", "image_path": "assets/agents/Brimstone.png" },
+  { "name": "Viper", "image_path": "assets/agents/Viper.png" },
+  { "name": "Killjoy", "image_path": "assets/agents/Killjoy.png" },
+  { "name": "Raze", "image_path": "assets/agents/Raze.png" },
+  { "name": "Breach", "image_path": "assets/agents/Breach.png" },
+  { "name": "Skye", "image_path": "assets/agents/Skye.png" },
+  { "name": "Yoru", "image_path": "assets/agents/Yoru.png" },
+  { "name": "KAY/O", "image_path": "assets/agents/Kayo.png" },
+  { "name": "Astra", "image_path": "assets/agents/Astra.png" },
+  { "name": "Neon", "image_path": "assets/agents/Neon.png" },
+  { "name": "Harbor", "image_path": "assets/agents/Harbor.png" },
+  { "name": "Chamber", "image_path": "assets/agents/Chamber.png" },
+  { "name": "Fade", "image_path": "assets/agents/Fade.png" },
+  { "name": "Gekko", "image_path": "assets/agents/Gekko.png" },
+  { "name": "Deadlock", "image_path": "assets/agents/Deadlock.png" },
+  { "name": "Clove", "image_path": "assets/agents/Clove.png" },
+  { "name": "Vyse", "image_path": "assets/agents/Vyse.png" },
+  { "name": "Tejo", "image_path": "assets/agents/Tejo.png" },
+  { "name": "Reyna", "image_path": "assets/agents/Reyna.png" },
+  { "name": "Iso", "image_path": "assets/agents/Iso.png" },
+  { "name": "Waylay", "image_path": "assets/agents/Waylay.png" },
+  { "name": "Veto", "image_path": "assets/agents/Veto.png" },
+  { "name": "Miks", "image_path": "assets/agents/Miks.png" },
+  { "name": "Hush", "image_path": "assets/agents/Hush.png" }
 ]

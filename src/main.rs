@@ -1,16 +1,34 @@
 mod agent;
 mod app;
+mod i18n;
 mod persistence;
+mod style;
 mod wheel;
 
 use app::ValorouletteApp;
+use eframe::egui;
+
+fn load_icon() -> egui::IconData {
+    let icon_bytes = include_bytes!("../assets/icon.png");
+    let image = image::load_from_memory(icon_bytes)
+        .expect("Icon not found in assets/icon.png")
+        .to_rgba8();
+    let (width, height) = image.dimensions();
+    egui::IconData {
+        rgba: image.into_raw(),
+        width,
+        height,
+    }
+}
 
 fn main() -> eframe::Result<()> {
+    let icon = load_icon();
     let options = eframe::NativeOptions {
-        viewport: eframe::egui::ViewportBuilder::default()
+        viewport: egui::ViewportBuilder::default()
             .with_title("Valoroulette")
-            .with_inner_size([1100.0, 760.0])
-            .with_min_inner_size([850.0, 620.0]),
+            .with_inner_size([1180.0, 800.0])
+            .with_min_inner_size([900.0, 640.0])
+            .with_icon(icon),
         ..Default::default()
     };
 

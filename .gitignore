@@ -1,0 +1,13 @@
+# Fichiers de build Rust
+/target/
+
+# Fichiers d'environnement
+.env
+
+# Fichiers générés par l'OS
+.DS_Store
+Thumbs.db
+
+# Fichiers d'IDE (Visual Studio Code, IntelliJ)
+.vscode/
+.idea/
